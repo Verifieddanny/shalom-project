@@ -1,5 +1,5 @@
 
-const BASE_URL: string = process.env.BASE_URL || "";
+const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL || "";
 
 interface Credentials {
     fullName ?: string;
