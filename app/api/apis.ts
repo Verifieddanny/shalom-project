@@ -1,7 +1,7 @@
 
 const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-interface Credentials {
+export interface Credentials {
     fullName ?: string;
     role?: string
     registrationNumber ?: string;
@@ -11,7 +11,7 @@ interface Credentials {
 }
 
 export async function loginUser(role: string, credentials: Credentials) {
-    const url = `${BASE_URL}/login`;
+    const url = `${BASE_URL}/auth/login`;
     let body;
 
     if(role === "student") {
