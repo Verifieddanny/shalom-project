@@ -87,3 +87,33 @@ export async function signUp(role: string, credentials: Credentials) {
         console.error("Error during sign up: ", error);
     }
 }
+
+
+
+  // Admin Route: Generate Lecturer Code
+  export async function generateLecturerCode(adminToken: string) {
+    const url = `${BASE_URL}/admin/create-lecturer-code`;
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${adminToken}`,
+            },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log("Lecturer code generated successfully: ", data);
+            return data;
+        } else {
+            console.error("Failed to generate lecturer code: ", data);
+            throw new Error(data.message || "Failed to generate lecturer code");
+        }
+    } catch (error) {
+        console.error("Error generating lecturer code: ", error);
+        throw error;
+    }
+}
