@@ -12,7 +12,7 @@ import {
 import { ChevronUp, Loader2, User2 } from "lucide-react"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { clearToken, clearTokenAndRedirect } from "@/lib/auth"
+import {  clearTokenAndRedirect } from "@/lib/auth"
 import { useState } from "react"
 
 // Menu items.
