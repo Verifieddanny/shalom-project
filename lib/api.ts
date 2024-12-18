@@ -6,7 +6,7 @@ interface AuthData {
     registrationNumber?: string;
     fullName?: string;
     role?: string;
-    lecturerCode?: number;
+    lecturerCode?: string;
 }
 export const login = async (data: AuthData) => {
     const result = await fetch(`${BASE_URL}/auth/login`, {
