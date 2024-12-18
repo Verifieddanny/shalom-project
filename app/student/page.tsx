@@ -1,54 +1,53 @@
 "use client";
 
 import { useState } from "react";
-import { loginUser, signUp } from "../api/apis";
+// import { loginUser, signUp } from "../api/apis";
+import AuthForm from "@/components/AuthForm";
 
 export default function Student() {
   const [isSigningIn, setIsSigningIn] = useState(true);
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    registrationNumber: "",
-    password: "",
-  });
+
 
   const toggleMode = () => setIsSigningIn(!isSigningIn);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setFormData({ ...formData, [name]: value });
+  // };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
 
-    try {
-      if (isSigningIn) {
-        // Login functionality
-        await loginUser("student", {
-          registrationNumber: formData.registrationNumber,
-          password: formData.password,
-        });
-      } else {
-        // Signup functionality
-        await signUp("student", {
-          fullName: formData.fullName,
-          email: formData.email,
-          registrationNumber: formData.registrationNumber,
-          password: formData.password,
-        });
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  //   try {
+  //     if (isSigningIn) {
+  //       // Login functionality
+  //       await loginUser("student", {
+  //         registrationNumber: formData.registrationNumber,
+  //         password: formData.password,
+  //       });
+  //     } else {
+  //       // Signup functionality
+  //       await signUp("student", {
+  //         fullName: formData.fullName,
+  //         email: formData.email,
+  //         registrationNumber: formData.registrationNumber,
+  //         password: formData.password,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
   return (
     <main className="bg-[#e8f7f8] min-h-screen flex flex-col items-center justify-center">
       <h1 className="text-2xl font-bold mb-4 text-[#010100]">
         Student {isSigningIn ? "Sign In" : "Sign Up"}
       </h1>
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-80">
+      {!isSigningIn ? ( <AuthForm role="student" type="register" />) : ( <AuthForm role="student" type="login" />)
+
+      }
+      {/* <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-80">
         {!isSigningIn && (
           <>
             <div className="mb-4">
@@ -100,7 +99,7 @@ export default function Student() {
         <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
           {isSigningIn ? "Sign In" : "Sign Up"}
         </button>
-      </form>
+      </form> */}
       <button onClick={toggleMode} className="mt-4 text-blue-500 underline">
         {isSigningIn ? "Create an account" : "Already have an account? Sign in"}
       </button>

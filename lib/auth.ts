@@ -1,11 +1,17 @@
+import { setCookie, destroyCookie, parseCookies } from "nookies";
+
 export const setToken = (token: string) => {
-    localStorage.setItem("token", token);
+  setCookie(null, "token", token, {
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    path: "/", // Accessible across all routes
+  });
 };
 
 export const getToken = () => {
-    return localStorage.getItem("token");
-}
+  const cookies = parseCookies();
+  return cookies.token || null;
+};
 
 export const clearToken = () => {
-    localStorage.removeItem("token");
-}
+  destroyCookie(null, "token", { path: "/" });
+};
