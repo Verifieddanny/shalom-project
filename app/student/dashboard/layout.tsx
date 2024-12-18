@@ -1,7 +1,10 @@
+"use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Home, Book, User, BarChart, Bell } from "lucide-react";
 import { MenuItem } from "@/components/app-sidebar";
+import { useAuth } from "@/context/AuthContext";
+
 
 
 const items: MenuItem[] = [
@@ -38,9 +41,11 @@ export default function DashboardLayout({
   }: {
     children: React.ReactNode
   }) {
+  const { authData } = useAuth();
+
     return (
     <SidebarProvider>
-      <AppSidebar items={items} />
+      <AppSidebar items={items} user={authData?.fullName! ?? "User"}  role="student" />
       <section>
       <SidebarTrigger />
         {children}

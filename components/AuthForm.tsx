@@ -4,6 +4,7 @@ import { login, register } from "@/lib/api"
 import { setToken } from "@/lib/auth"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
+import Loader from "./loader"
 
 interface AuthFormProps {
     role: "student" | "staff" | "admin";
@@ -19,6 +20,7 @@ const AuthForm = ({role, type}: AuthFormProps) => {
         password: "",
         registrationNumber: "",
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({...formData, [e.target.name]: e.target.value });
@@ -26,26 +28,41 @@ const AuthForm = ({role, type}: AuthFormProps) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
             const payload = role === "student" ? {registrationNumber: formData.registrationNumber, password: formData.password} : {email: formData.email, password: formData.password};
             
-            console.log(({...formData, role}))
             const response = type === "login" ? await login(payload) : role === "student" ? await register({...formData, role}):  role !== "staff" ? await register(formData) : false;
-            console.log(response);
+
             setToken(response?.data?.accessToken
             );
             if (role === "staff" && type === "register") {
-              setAuthData({email: formData.email, password: formData.password})
+
+              setAuthData({email: response?.data?.user?.email, fullName: response?.data?.user?.fullName});
                 router.push(`/staff/verify-token/`); 
               } else {
-                setAuthData(formData)
+                setAuthData({
+                  email: response?.data?.user?.email,
+                  fullName: response?.data?.user?.fullName,
+                  id: response?.data?.user?.id,
+                  registrationNumber: response?.data?.user?.registrationNumber,
+                  role: response?.data?.user?.role,
+                })
                 router.push(`/${role}/dashboard`);
                             }
         } catch (error) {
+          setIsLoading(false)
             console.error("Error:", error);
             alert("Authentication failed");
         }
+        //  finally {
+        //   setIsLoading(false);
+        // }
     };
+
+    if (isLoading) {
+      return <Loader />
+    }
 
 
     return (
