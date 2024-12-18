@@ -24,7 +24,7 @@ const VerifyTokenPage = () => {
         setError("Invalid token. Please try again.");
       }
     } catch (err) {
-      setError("Error verifying token. Please try again.");
+      setError(`Error verifying token. Please try again. ${err}`);
     }
   };
 
