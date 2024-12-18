@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { login, register } from "@/lib/api"
 import { setToken } from "@/lib/auth"
+import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
 
 interface AuthFormProps {
@@ -11,11 +12,12 @@ interface AuthFormProps {
 
 const AuthForm = ({role, type}: AuthFormProps) => {
     const router = useRouter();
+    const { setAuthData } = useAuth();
     const [formData, setFormData] = useState({
+        fullName: "",
         email: "",
         password: "",
         registrationNumber: "",
-        fullName: "",
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,16 +28,19 @@ const AuthForm = ({role, type}: AuthFormProps) => {
         e.preventDefault();
         try {
             const payload = role === "student" ? {registrationNumber: formData.registrationNumber, password: formData.password} : {email: formData.email, password: formData.password};
-
-            const response = type === "login" ? await login(payload) : await register(formData);
+            
+            console.log(({...formData, role}))
+            const response = type === "login" ? await login(payload) : role === "student" ? await register({...formData, role}):  role !== "staff" ? await register(formData) : false;
             console.log(response);
-            // setToken(response.token);
-
-            if (role === "staff" && type === "login") {
-                router.push("/staff/verify-token"); 
+            setToken(response?.data?.accessToken
+            );
+            if (role === "staff" && type === "register") {
+              setAuthData({email: formData.email, password: formData.password})
+                router.push(`/staff/verify-token/`); 
               } else {
+                setAuthData(formData)
                 router.push(`/${role}/dashboard`);
-              }
+                            }
         } catch (error) {
             console.error("Error:", error);
             alert("Authentication failed");
@@ -44,47 +49,61 @@ const AuthForm = ({role, type}: AuthFormProps) => {
 
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md gap-4 w-80 flex flex-col ">
           {type === "register" && (
+            <>
             <input
               type="text"
               name="fullName"
               placeholder="Full Name"
               onChange={handleChange}
-              className="input"
+              className="border rounded w-full p-2"
               required
-            />
+              />
+            </>
           )}
-          {role === "student" ? (
+          {role === "student" && type === "register" ? (
+            <>
             <input
               type="text"
               name="registrationNumber"
               placeholder="Registration Number"
               onChange={handleChange}
-              className="input"
+              className="border rounded w-full p-2"
               required
-            />
-          ) : (
-            <input
+              />
+              <input
               type="email"
               name="email"
               placeholder="Email"
               onChange={handleChange}
-              className="input"
+              className="border rounded w-full p-2"
               required
-            />
+              />
+              </>
+          ) : (
+            <input
+              type="text"
+              name="registrationNumber"
+              placeholder="Registration Number"
+              onChange={handleChange}
+              className="border rounded w-full p-2"
+              required
+              />
           )}
           <input
             type="password"
             name="password"
             placeholder="Password"
             onChange={handleChange}
-            className="input"
+            className="border rounded w-full p-2"
             required
           />
-          <button type="submit" className="btn-primary">
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
             {type === "login" ? "Sign In" : "Sign Up"}
           </button>
         </form>
       );
 }
+
+export default AuthForm;

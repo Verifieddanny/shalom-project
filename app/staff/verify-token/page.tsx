@@ -1,17 +1,24 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { setToken } from "@/lib/auth"
+import { register } from "@/lib/api";
 
 const VerifyTokenPage = () => {
   const router = useRouter();
-  const [token, setToken] = useState("");
+  const { authData } = useAuth();
+  const [lecturerToken, setLecturerToken] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = {success:true}; //this should be an await call for lecturer sign up
-      if (response.success) {
+
+      const response = await register({...authData, lecturerCode: lecturerToken, role: "lecturer"});
+      if (response?.success) {
+        setToken(response?.data?.accessToken
+        );
         router.push("/staff/dashboard");
       } else {
         setError("Invalid token. Please try again.");
@@ -28,8 +35,8 @@ const VerifyTokenPage = () => {
         <input
           type="text"
           placeholder="Enter Token"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
+          value={lecturerToken}
+          onChange={(e) => setLecturerToken(e.target.value)}
           className="input"
           required
         />
