@@ -42,10 +42,13 @@ export default function DashboardLayout({
     children: React.ReactNode
   }) {
   const { authData } = useAuth();
+  const userName = authData?.fullName || "User";
+  const role = authData?.role || "";
+
 
     return (
     <SidebarProvider>
-      <AppSidebar items={items} user={authData?.fullName ?? "User"}  role="student" />
+  <AppSidebar items={items} user={userName} role={role}/>
       <section>
       <SidebarTrigger />
         {children}
