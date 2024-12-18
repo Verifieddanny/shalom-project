@@ -45,7 +45,7 @@ export default function DashboardLayout({
 
     return (
     <SidebarProvider>
-      <AppSidebar items={items} user={authData?.fullName!} role="student" />
+      <AppSidebar items={items} user={authData?.fullName! ?? "User"}  role="student" />
       <section>
       <SidebarTrigger />
         {children}
