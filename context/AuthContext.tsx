@@ -3,9 +3,10 @@ import { createContext, useContext, useState, } from "react";
 
 interface AuthData {
     email?: string;
-    password?: string;
-    registrationNumber?: string;
     fullName?: string;
+    id?: string;
+    registrationNumber?: string;
+    role ?: string;
 }
 
 interface AuthContextType {

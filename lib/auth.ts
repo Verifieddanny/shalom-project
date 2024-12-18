@@ -15,3 +15,15 @@ export const getToken = () => {
 export const clearToken = () => {
   destroyCookie(null, "token", { path: "/" });
 };
+
+export const clearTokenAndRedirect = (onLoadingStart?: () => void) => {
+  if (onLoadingStart) {
+    onLoadingStart();
+  }
+
+  destroyCookie(null, "token", { path: "/" });
+  
+  setTimeout(() => {
+    window.location.href = '/';
+  }, 1000); 
+};
