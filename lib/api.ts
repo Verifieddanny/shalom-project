@@ -1,7 +1,14 @@
 const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL || "";
 
-
-export const login = async (data: any) => {
+interface AuthData {
+    email?: string;
+    password?: string;
+    registrationNumber?: string;
+    fullName?: string;
+    role?: string;
+    lecturerCode?: number;
+}
+export const login = async (data: AuthData) => {
     const result = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: {"content-type": "application/json"},
@@ -12,7 +19,7 @@ export const login = async (data: any) => {
     return result.json();
 };
 
-export const register = async (data: any) => {
+export const register = async (data: AuthData) => {
     const result = await fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
         headers: {"content-type": "application/json"},
