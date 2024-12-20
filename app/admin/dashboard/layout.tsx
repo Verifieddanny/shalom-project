@@ -1,7 +1,7 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { Home, Book, User, BarChart, Bell } from "lucide-react";
+import { Home, Paperclip, User, BarChart, Bell, Book } from "lucide-react";
 import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
 
@@ -20,12 +20,12 @@ const items: MenuItem[] = [
     },
     {
       title: "Courses Registration",
-      url: "/dashboard",
+      url: "/dashboard/register-courses",
       icon: Book,
     },
     {
-      title: "Grades",
-      url: "/dashboard",
+      title: "Registered Courses",
+      url: "/dashboard/registered-courses",
       icon: BarChart,
     },
     {
@@ -33,7 +33,7 @@ const items: MenuItem[] = [
       url: "/dashboard",
       icon: Bell,
     }
-  ]
+  ];
   
 
 export default function DashboardLayout({
