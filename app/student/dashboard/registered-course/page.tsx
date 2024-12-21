@@ -1,7 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { getRegisteredCourses } from '@/lib/api';
+import { getRegisteredCourses, deleteCourseRegistration } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
+import { Trash } from 'lucide-react';
 
 interface CourseRegistration {
   _id: string;
@@ -17,7 +18,6 @@ const RegisteredCourses: React.FC = () => {
   const { authData } = useAuth();
 
   useEffect(() => {
-
     const fetchRegisteredCourses = async () => {
       try {
         if (authData?.accessToken) {
@@ -34,6 +34,20 @@ const RegisteredCourses: React.FC = () => {
 
     fetchRegisteredCourses();
   }, [authData]);
+
+  const handleDelete = async (id: string) => {
+    try {
+      if (authData?.accessToken) {
+        await deleteCourseRegistration(id, authData.accessToken);
+        setRegisteredCourses(prevCourses => prevCourses.filter(course => course._id !== id));
+      } else {
+        setError('Access token is not available');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.log('Error deleting course registration:', err);
+    }
+  };
 
   // Sort the registered courses by session and semester in descending order
   const sortedCourses = registeredCourses.sort((a, b) => {
@@ -56,7 +70,13 @@ const RegisteredCourses: React.FC = () => {
         {sortedCourses.length > 0 ? (
           sortedCourses.map((registration) => (
             <div key={registration._id} className="mb-4 p-4 border rounded">
-              <h2 className="text-xl font-semibold mb-2">{registration.session} - {registration.semester === 1 ? "First" : "Second"} Semester</h2>
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold mb-2">{registration.session} - {registration.semester === 1 ? "First" : "Second"} Semester</h2>
+                <Trash
+                  className="text-red-500 cursor-pointer"
+                  onClick={() => handleDelete(registration._id)}
+                />
+              </div>
               <ul className="list-disc list-inside">
                 {registration.courses.map((course: string) => (
                   <li key={course}>{course}</li>
@@ -74,3 +94,4 @@ const RegisteredCourses: React.FC = () => {
 };
 
 export default RegisteredCourses;
+
