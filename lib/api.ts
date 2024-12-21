@@ -70,36 +70,37 @@ export const generateToken = async (accessToken: string) => {
 
     return result.json();
   }
-
   export const getRegisteredCourses = async (accessToken: string, session?: string, semester?: number) => {
     const queryParams = new URLSearchParams();
-
+  
     if (session) queryParams.append("session", session);
     if (semester) queryParams.append("semester", semester.toString());
-
+  
     const result = await fetch(`${BASE_URL}/student/registered-courses?${queryParams.toString()}`, {
-        method: "GET",
-        headers: {
-          "content-type": "application/json", 
-          "Authorization": "Bearer " + accessToken,
-          },
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "Authorization": "Bearer " + accessToken,
+      },
     });
-
-
+  
     if (!result.ok) {
-        const errorData = await result.json();
-        throw new Error(errorData.message || "Failed to retrieve registered courses");
-      }
-    
-      const data = await result.json();
-      console.log(data);
-      return data.data;
-  }
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to retrieve registered courses");
+    }
+  
+    const data = await result.json();
+   
+    return data.data; 
+  };
 
-  export const deleteCourseRegistration = async (id: string) => {
+  export const deleteCourseRegistration = async (id: string, accessToken: string) => {
     const result = await fetch(`${BASE_URL}/student/registration/${id}`, {
       method: "DELETE",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        "Authorization": "Bearer " + accessToken,
+      },
     });
   
     if (!result.ok) {
