@@ -1,7 +1,7 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { Home, Paperclip, User, BarChart, Bell, Book } from "lucide-react";
+import { Home, Paperclip, User, Bell } from "lucide-react";
 import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
 

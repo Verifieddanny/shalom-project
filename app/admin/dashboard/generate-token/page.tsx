@@ -11,11 +11,11 @@ export default function GenerateToken() {
 
   const handleGenerateToken = async () => {
     try {
-      
-      const result = await generateToken(authData?.accessToken!);
-     
-      setToken(result?.data?.code);
-      setError(null);
+      if (authData?.accessToken) {
+        const result = await generateToken(authData.accessToken);
+        setToken(result?.data?.code || null);
+        setError(null);
+      } 
     } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       setToken(null);
