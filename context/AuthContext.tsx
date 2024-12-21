@@ -7,6 +7,7 @@ interface AuthData {
     id?: string;
     registrationNumber?: string;
     role ?: string;
+    accessToken?: string;
 }
 
 interface AuthContextType {
