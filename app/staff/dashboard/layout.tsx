@@ -1,34 +1,38 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { Home, Paperclip, User, BarChart, Bell, Book } from "lucide-react";
+import { Home, Book, User, BarChart, Bell } from "lucide-react";
 import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
 
 
-
 const items: MenuItem[] = [
-    {
-      title: "Home",
-      url: "/dashboard",
-      icon: Home,
-    },
-    {
-      title: "Profile",
-      url: "/dashboard/profile",
-      icon: User,
-    },
-    {
-      title: "Generate Token",
-      url: "/dashboard/generate-token",
-      icon: Paperclip,
-    },
-    {
-      title: "Notifications",
-      url: "/dashboard",
-      icon: Bell,
-    }
-  ];
+  {
+    title: "Home",
+    url: "/dashboard",
+    icon: Home,
+  },
+  {
+    title: "Profile",
+    url: "/dashboard/profile",
+    icon: User,
+  },
+  {
+    title: "Courses Registration",
+    url: "/dashboard/register-courses",
+    icon: Book,
+  },
+  {
+    title: "Registered Courses",
+    url: "/dashboard/registered-courses",
+    icon: BarChart,
+  },
+  {
+    title: "Notifications",
+    url: "/dashboard",
+    icon: Bell,
+  }
+];
   
 
 export default function DashboardLayout({

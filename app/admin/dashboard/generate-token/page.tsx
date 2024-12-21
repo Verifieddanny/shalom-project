@@ -1,6 +1,6 @@
 "use client"
 import { generateToken } from '@/lib/api';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '@/context/AuthContext';
 
 export default function GenerateToken() {
@@ -8,15 +8,13 @@ export default function GenerateToken() {
   const [error, setError] = useState<string | null>(null);
   const { authData } = useAuth();
 
-  useEffect(() => {
-    console.log({authData})
-  }, [])
+
   const handleGenerateToken = async () => {
     try {
-        console.log(authData?.accessToken!,"after sign in");
+      
       const result = await generateToken(authData?.accessToken!);
-      console.log(result)
-    //   setToken(result.token);
+     
+      setToken(result?.data?.code);
       setError(null);
     } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');

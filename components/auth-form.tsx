@@ -40,15 +40,20 @@ const AuthForm = ({role, type}: AuthFormProps) => {
               setAuthData({ ...response?.data?.user, role, accessToken: response?.data?.accessToken });
               router.push(`/${role}/dashboard`);
             } else if (role === "staff" && type === "register") {
-              setAuthData({email: response?.data?.user?.email, fullName: response?.data?.user?.fullName});
+              setAuthData({email: formData.email, fullName: formData.fullName, password: formData.password});
               router.push(`/staff/verify-token/`); 
-            } else {
+            } else if (role === "staff" && type === "login") {
+              setAuthData({ ...response?.data?.user, accessToken: response?.data?.accessToken });
+              router.push(`/${role}/dashboard`);
+            }
+             else {
               setAuthData({
                 email: response?.data?.user?.email,
                 fullName: response?.data?.user?.fullName,
                 id: response?.data?.user?.id,
                 registrationNumber: response?.data?.user?.registrationNumber,
                 role: response?.data?.user?.role,
+                accessToken: response?.data?.accessToken
               });
               router.push(`/${role}/dashboard`);
             }
