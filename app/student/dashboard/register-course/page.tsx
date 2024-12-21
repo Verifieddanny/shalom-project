@@ -27,9 +27,16 @@ const RegisterCourses: React.FC = () => {
 
   const handleRegister = async () => {
     try {
-      const result = await registerCourses({ session, semester, courses }, authData?.accessToken!);
-      setMessage('Courses registered successfully');
+        if (authData?.accessToken) {
+        await registerCourses({ session, semester, courses }, authData.accessToken);
+        setMessage('Courses registered successfully');
+        setCourses([]);
+        setSession('2024/2025');
+        setSemester(1);
       router.push('/dashboard/registered-course');
+      } else {
+        setMessage('Access token is not available');
+      }
     } catch (err) {
       setMessage(err instanceof Error ? err.message : 'An error occurred');
     }

@@ -3,8 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { getRegisteredCourses } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 
+interface CourseRegistration {
+  _id: string;
+  session: string;
+  semester: number;
+  courses: string[];
+  registeredAt: string;
+}
+
 const RegisteredCourses: React.FC = () => {
-  const [registeredCourses, setRegisteredCourses] = useState<any[]>([]);
+  const [registeredCourses, setRegisteredCourses] = useState<CourseRegistration[]>([]);
   const [error, setError] = useState<string | null>(null);
   const { authData } = useAuth();
 

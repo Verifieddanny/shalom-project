@@ -1,6 +1,5 @@
 "use client"
 import AuthForm from "@/components/auth-form";
-import { useState } from "react";
 
 export default function Admin() {
 
