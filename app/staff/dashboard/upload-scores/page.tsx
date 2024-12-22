@@ -45,7 +45,7 @@ const UploadScores: React.FC = () => {
           name="courseCode"
           placeholder="Course Code"
           value={courseCode}
-          onChange={(e) => setCourseCode(e.target.value)}
+          onChange={(e) => setCourseCode((e.target.value).toUpperCase())}
           className="border rounded w-full p-2"
           required
         />
