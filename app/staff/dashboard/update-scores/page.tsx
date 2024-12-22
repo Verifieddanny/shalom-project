@@ -40,36 +40,56 @@ const UpdateScores: React.FC = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Update Scores</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
+      <label htmlFor="courseCode" className="text-sm font-medium text-gray-700">
+            Course code
+        </label>
         <input
+          id='courseCode'
           type="text"
           name="courseCode"
           placeholder="Course Code"
           value={courseCode}
-          onChange={(e) => setCourseCode(e.target.value)}
+          onChange={(e) => setCourseCode((e.target.value).toUpperCase())}
           className="border rounded w-full p-2"
           required
         />
-        <input
-          type="text"
-          name="session"
-          placeholder="Session (YYYY/YYYY)"
-          value={session}
-          onChange={(e) => setSession(e.target.value)}
-          className="border rounded w-full p-2"
-          required
-        />
-        <input
-          type="number"
-          name="semester"
-          placeholder="Semester (1 or 2)"
-          value={semester}
-          onChange={(e) => setSemester(Number(e.target.value))}
-          className="border rounded w-full p-2"
-          required
-        />
+         <label htmlFor="session" className="text-sm font-medium text-gray-700">
+            Session
+          </label>
+         <select
+            id="session"
+            value={session}
+            onChange={(e) => setSession(e.target.value)}
+            className="border rounded w-full p-2"
+            required
+          >
+            <option value="">YYYY/YYYY</option>
+            <option value="2024/2025">2024/2025</option>
+            <option value="2023/2024">2023/2024</option>
+            <option value="2022/2023">2022/2023</option>
+            <option value="2021/2022">2021/2022</option>
+            <option value="2020/2021">2020/2021</option>
+          </select>
+          <label htmlFor="semester" className="text-sm font-medium text-gray-700">
+            Semester
+          </label>
+          <select
+            id="semester"
+            value={semester}
+            onChange={(e) => setSemester(Number(e.target.value))}
+            className="border rounded w-full p-2"
+            required
+          >
+            <option value={1}>First</option>
+            <option value={2}>Second</option>
+          </select>
         {scores.map((score, index) => (
           <div key={index} className="space-y-2">
+             <label htmlFor="regNo" className="text-sm font-medium text-gray-700">
+              Registration number
+            </label>
             <input
+              id="regNo"
               type="text"
               name={`registrationNumber-${index}`}
               placeholder="Registration Number"
@@ -78,7 +98,12 @@ const UpdateScores: React.FC = () => {
               className="border rounded w-full p-2"
               required
             />
+
+            <label htmlFor="score" className="text-sm font-medium text-gray-700">
+              Score
+            </label>
             <input
+              id="score"
               type="number"
               name={`score-${index}`}
               placeholder="Score"
