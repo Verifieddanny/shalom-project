@@ -11,6 +11,31 @@ interface AuthData {
     lecturerCode?: string;
 }
 
+interface Score {
+  registrationNumber: string;
+  score: number;
+}
+
+interface UploadUpdateScoresData {
+  courseCode: string;
+  session: string;
+  semester: number;
+  scores: Score[];
+}
+
+interface UpdateStudentScoreData {
+  courseCode: string;
+  session: string;
+  semester: number;
+  registrationNumber: string;
+  newScore: number;
+}
+
+interface GetScoresQueryParams {
+  courseCode?: string;
+  session?: string;
+  semester?: number;
+}
 
 export const login = async (data: AuthData) => {
     const result = await fetch(`${BASE_URL}/auth/login`, {
@@ -111,7 +136,7 @@ export const generateToken = async (accessToken: string) => {
     return result.json();
   };
 
-  export const uploadScores = async (accessToken: string, scoresData: any) => {
+  export const uploadScores = async (accessToken: string, scoresData: UploadUpdateScoresData) => {
     const result = await fetch(`${BASE_URL}/lecturer/upload-scores`, {
         method: "POST",
         headers: {
@@ -129,8 +154,8 @@ export const generateToken = async (accessToken: string) => {
     return result.json();
 }
 
-export const getScores = async (accessToken: string, queryParams: any = {}) => {
-  const query = new URLSearchParams(queryParams).toString();
+export const getScores = async (accessToken: string, queryParams: GetScoresQueryParams = {}) => {
+  const query = new URLSearchParams(Object.entries(queryParams)).toString();
   const result = await fetch(`${BASE_URL}/lecturer/scores?${query}`, {
       method: "GET",
       headers: {
@@ -146,7 +171,7 @@ export const getScores = async (accessToken: string, queryParams: any = {}) => {
   return result.json();
 }
 
-export const updateScores = async (accessToken: string, scoresData: any) => {
+export const updateScores = async (accessToken: string, scoresData: UploadUpdateScoresData) => {
   const result = await fetch(`${BASE_URL}/lecturer/scores`, {
       method: "PATCH",
       headers: {
@@ -180,7 +205,7 @@ export const deleteScores = async (accessToken: string, id: string) => {
   return result.json();
 }
 
-export const updateStudentScore = async (accessToken: string, scoreData: any) => {
+export const updateStudentScore = async (accessToken: string, scoreData: UpdateStudentScoreData) => {
   const result = await fetch(`${BASE_URL}/lecturer/update-student-score`, {
       method: "PATCH",
       headers: {

@@ -1,9 +1,9 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { MenuItem } from "@/components/app-sidebar";
+// import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
-import { Upload, List, Edit, Trash, User, Bell } from 'lucide-react';
+import { Upload, List, Edit, User, Bell } from 'lucide-react';
 
 const items = [
   {

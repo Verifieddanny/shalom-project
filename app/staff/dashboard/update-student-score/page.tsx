@@ -16,7 +16,7 @@ const UpdateStudentScore: React.FC = () => {
     e.preventDefault();
     try {
       if (authData?.accessToken) {
-        const scoreData = { courseCode, session, semester, registrationNumber, score };
+        const scoreData = { courseCode, session, semester, registrationNumber, newScore: score };
         await updateStudentScore(authData.accessToken, scoreData);
         setMessage('Student score updated successfully');
       } else {
