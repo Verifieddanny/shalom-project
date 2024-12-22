@@ -3,9 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { getScores, deleteScores } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 
+interface Score {
+    id: string;
+    courseCode: string;
+    studentId: string;
+    score: number;
+  }
+  
+
 const GetScores: React.FC = () => {
   const { authData } = useAuth();
-  const [scores, setScores] = useState<any[]>([]);
+  const [scores, setScores] = useState<Score[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
