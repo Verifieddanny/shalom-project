@@ -11,6 +11,31 @@ interface AuthData {
     lecturerCode?: string;
 }
 
+interface Score {
+  registrationNumber: string;
+  score: number;
+}
+
+interface UploadUpdateScoresData {
+  courseCode: string;
+  session: string;
+  semester: number;
+  scores: Score[];
+}
+
+interface UpdateStudentScoreData {
+  courseCode: string;
+  session: string;
+  semester: number;
+  registrationNumber: string;
+  newScore: number;
+}
+
+interface GetScoresQueryParams {
+  courseCode?: string;
+  session?: string;
+  semester?: number;
+}
 
 export const login = async (data: AuthData) => {
     const result = await fetch(`${BASE_URL}/auth/login`, {
@@ -110,3 +135,90 @@ export const generateToken = async (accessToken: string) => {
   
     return result.json();
   };
+
+  export const uploadScores = async (accessToken: string, scoresData: UploadUpdateScoresData) => {
+    const result = await fetch(`${BASE_URL}/lecturer/upload-scores`, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer " + accessToken
+        },
+        body: JSON.stringify(scoresData)
+    });
+
+    if (!result.ok) {
+        const errorData = await result.json();
+        throw new Error(errorData.message || "Failed to upload scores");
+    }
+
+    return result.json();
+}
+
+export const getScores = async (accessToken: string, queryParams: GetScoresQueryParams = {}) => {
+  const query = new URLSearchParams(Object.entries(queryParams)).toString();
+  const result = await fetch(`${BASE_URL}/lecturer/scores?${query}`, {
+      method: "GET",
+      headers: {
+          "Authorization": "Bearer " + accessToken
+      }
+  });
+
+  if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to retrieve scores");
+  }
+
+  return result.json();
+}
+
+export const updateScores = async (accessToken: string, scoresData: UploadUpdateScoresData) => {
+  const result = await fetch(`${BASE_URL}/lecturer/scores`, {
+      method: "PATCH",
+      headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + accessToken
+      },
+      body: JSON.stringify(scoresData)
+  });
+
+  if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to update scores");
+  }
+
+  return result.json();
+}
+
+export const deleteScores = async (accessToken: string, id: string) => {
+  const result = await fetch(`${BASE_URL}/lecturer/scores/${id}`, {
+      method: "DELETE",
+      headers: {
+          "Authorization": "Bearer " + accessToken
+      }
+  });
+
+  if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to delete scores");
+  }
+
+  return result.json();
+}
+
+export const updateStudentScore = async (accessToken: string, scoreData: UpdateStudentScoreData) => {
+  const result = await fetch(`${BASE_URL}/lecturer/update-student-score`, {
+      method: "PATCH",
+      headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + accessToken
+      },
+      body: JSON.stringify(scoreData)
+  });
+
+  if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to update student score");
+  }
+
+  return result.json();
+}

@@ -1,31 +1,30 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { Home, Book, User, BarChart, Bell } from "lucide-react";
-import { MenuItem } from "@/components/app-sidebar";
+// import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
+import { Upload, List, Edit, User, Bell } from 'lucide-react';
 
-
-const items: MenuItem[] = [
+const items = [
   {
-    title: "Home",
-    url: "/dashboard",
-    icon: Home,
+    title: "Upload Scores",
+    url: "/dashboard/upload-scores",
+    icon: Upload,
   },
   {
-    title: "Profile",
-    url: "/dashboard/profile",
+    title: "Get Scores",
+    url: "/dashboard/get-scores",
+    icon: List,
+  },
+  {
+    title: "Update Scores",
+    url: "/dashboard/update-scores",
+    icon: Edit,
+  },
+  {
+    title: "Update Student Score",
+    url: "/dashboard/update-student-score",
     icon: User,
-  },
-  {
-    title: "Courses Registration",
-    url: "/dashboard/register-courses",
-    icon: Book,
-  },
-  {
-    title: "Registered Courses",
-    url: "/dashboard/registered-courses",
-    icon: BarChart,
   },
   {
     title: "Notifications",
@@ -33,7 +32,9 @@ const items: MenuItem[] = [
     icon: Bell,
   }
 ];
-  
+
+
+
 
 export default function DashboardLayout({
     children, 

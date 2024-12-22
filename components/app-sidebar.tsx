@@ -45,7 +45,7 @@ export function AppSidebar({ items, user, role }: AppSidebarProps) {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link href={`/${role}${item.url}`}>
+                    <Link href={`/${role === "lecturer" ? "staff": role}${item.url}`}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
@@ -74,7 +74,7 @@ export function AppSidebar({ items, user, role }: AppSidebarProps) {
                   className="w-[--radix-popper-anchor-width]"
                 >
                   <DropdownMenuItem>
-                    <Link className="w-full h-full" href={`/${role}/dashboard/profile`}>
+                    <Link className="w-full h-full" href={`/${role === "lecturer" ? "staff": role}}/dashboard/profile`}>
                     <span>Account</span>
                     </Link>
                   </DropdownMenuItem>
