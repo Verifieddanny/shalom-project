@@ -110,3 +110,90 @@ export const generateToken = async (accessToken: string) => {
   
     return result.json();
   };
+
+  export const uploadScores = async (accessToken: string, scoresData: any) => {
+    const result = await fetch(`${BASE_URL}/lecturer/upload-scores`, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer " + accessToken
+        },
+        body: JSON.stringify(scoresData)
+    });
+
+    if (!result.ok) {
+        const errorData = await result.json();
+        throw new Error(errorData.message || "Failed to upload scores");
+    }
+
+    return result.json();
+}
+
+export const getScores = async (accessToken: string, queryParams: any = {}) => {
+  const query = new URLSearchParams(queryParams).toString();
+  const result = await fetch(`${BASE_URL}/lecturer/scores?${query}`, {
+      method: "GET",
+      headers: {
+          "Authorization": "Bearer " + accessToken
+      }
+  });
+
+  if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to retrieve scores");
+  }
+
+  return result.json();
+}
+
+export const updateScores = async (accessToken: string, scoresData: any) => {
+  const result = await fetch(`${BASE_URL}/lecturer/scores`, {
+      method: "PATCH",
+      headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + accessToken
+      },
+      body: JSON.stringify(scoresData)
+  });
+
+  if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to update scores");
+  }
+
+  return result.json();
+}
+
+export const deleteScores = async (accessToken: string, id: string) => {
+  const result = await fetch(`${BASE_URL}/lecturer/scores/${id}`, {
+      method: "DELETE",
+      headers: {
+          "Authorization": "Bearer " + accessToken
+      }
+  });
+
+  if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to delete scores");
+  }
+
+  return result.json();
+}
+
+export const updateStudentScore = async (accessToken: string, scoreData: any) => {
+  const result = await fetch(`${BASE_URL}/lecturer/update-student-score`, {
+      method: "PATCH",
+      headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + accessToken
+      },
+      body: JSON.stringify(scoreData)
+  });
+
+  if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to update student score");
+  }
+
+  return result.json();
+}
