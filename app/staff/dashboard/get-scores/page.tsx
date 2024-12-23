@@ -3,13 +3,19 @@ import React, { useState, useEffect } from 'react';
 import { getScores, deleteScores } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 
+interface StudentScore {
+  registrationNumber: string;
+  score: number;
+  _id: string;
+}
+
 interface Score {
-    id: string;
-    courseCode: string;
-    studentId: string;
-    score: number;
-  }
-  
+  _id: string;
+  courseCode: string;
+  session: string;
+  semester: number;
+  scores: StudentScore[];
+}
 
 const GetScores: React.FC = () => {
   const { authData } = useAuth();
@@ -38,8 +44,8 @@ const GetScores: React.FC = () => {
     try {
       if (authData?.accessToken) {
         await deleteScores(authData.accessToken, id);
-        setMessage('Score deleted successfully');
-        setScores(scores.filter(score => score.id !== id));
+        setMessage('Scoresheet deleted successfully');
+        setScores(scores.filter(score => score._id !== id));
       } else {
         setError('Access token is not available');
       }
@@ -62,15 +68,26 @@ const GetScores: React.FC = () => {
         </div>
       )}
       <ul>
-        {scores.map((score, index) => (
-          <li key={index} className="border-b p-2 flex justify-between items-center">
-            <span>{score.courseCode} - {score.studentId}: {score.score}</span>
-            <button
-              onClick={() => handleDelete(score.id)}
-              className="bg-red-500 text-white p-2 rounded"
-            >
-              Delete
-            </button>
+        {scores.map((score) => (
+          <li key={score._id} className="border-b p-2">
+            <div className="flex justify-between items-center">
+              <span>{score.courseCode} - {score.session} - {score.semester === 1 ? "First" : "Second"} Semester </span>
+              <button
+                onClick={() => handleDelete(score._id)}
+                className="bg-red-500 text-white p-2 rounded ml-4"
+              >
+                Delete Scoresheet
+              </button>
+            </div>
+            <h3 className="mt-2 font-semibold">Students Scores</h3>
+            <ul className="mt-2">
+              {score.scores.map((studentScore) => (
+                <li key={studentScore._id} className="flex justify-between items-center">
+                  <span className="w-1/2">{studentScore.registrationNumber}</span>
+                  <span className="w-1/4">{studentScore.score}</span>
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>

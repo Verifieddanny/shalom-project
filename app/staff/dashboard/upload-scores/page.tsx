@@ -10,6 +10,7 @@ const UploadScores: React.FC = () => {
   const [semester, setSemester] = useState<number>(1);
   const [scores, setScores] = useState<{ registrationNumber: string; score: number }[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleScoreChange = (index: number, field: string, value: string | number) => {
     const newScores = [...scores];
@@ -23,16 +24,23 @@ const UploadScores: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (authData?.accessToken) {
         const scoresData = { courseCode, session, semester, scores };
         await uploadScores(authData.accessToken, scoresData);
         setMessage('Scores uploaded successfully');
+        setCourseCode('');
+        setSession('');
+        setSemester(1);
+        setScores([]);
       } else {
         setMessage('Access token is not available');
       }
     } catch (err) {
       setMessage(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -125,6 +133,8 @@ const UploadScores: React.FC = () => {
           {message}
         </div>
       )}
+      {loading && <div className="loader">Uploading scores...</div>}
+
     </div>
   );
 };
