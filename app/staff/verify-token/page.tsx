@@ -21,6 +21,7 @@ const VerifyTokenPage = () => {
         router.push("/staff/dashboard");
       } else {
         setError("Invalid token. Please try again.");
+        
       }
     } catch (err) {
       setError(`Error verifying token. Please try again. ${err}`);

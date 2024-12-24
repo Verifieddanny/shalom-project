@@ -1,7 +1,7 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { Home, Book, User, BarChart, Bell } from "lucide-react";
+import { Home, Book, BarChart, Bell, FileText } from "lucide-react";
 import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
 
@@ -11,11 +11,11 @@ const items: MenuItem[] = [
     url: "/dashboard",
     icon: Home,
   },
-  {
-    title: "Profile",
-    url: "/dashboard/profile",
-    icon: User,
-  },
+  // {
+  //   title: "Profile",
+  //   url: "/dashboard/profile",
+  //   icon: User,
+  // },
   {
     title: "Courses Registration",
     url: "/dashboard/register-course",
@@ -25,6 +25,11 @@ const items: MenuItem[] = [
     title: "Registered Courses",
     url: "/dashboard/registered-course",
     icon: BarChart,
+  },
+  {
+    title: "Transcript",
+    url: "/dashboard/transcript",
+    icon: FileText,
   },
   {
     title: "Notifications",

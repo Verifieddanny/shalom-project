@@ -1,7 +1,7 @@
 "use client"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { Home, Paperclip, User, Bell } from "lucide-react";
+import { Home, Paperclip, Bell, Users } from "lucide-react";
 import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
 
@@ -14,14 +14,19 @@ const items: MenuItem[] = [
       icon: Home,
     },
     {
-      title: "Profile",
-      url: "/dashboard/profile",
-      icon: User,
-    },
-    {
       title: "Generate Token",
       url: "/dashboard/generate-token",
       icon: Paperclip,
+    },
+    {
+      title: "Lecturers",
+      url: "/dashboard/lecturers",
+      icon: Users,
+    },
+    {
+      title: "Students",
+      url: "/dashboard/students",
+      icon: Users,
     },
     {
       title: "Notifications",

@@ -1,9 +1,13 @@
-import React from 'react'
+"use client"
+import { useAuth } from '@/context/AuthContext'; // Removed useState
 
-function page() {
+export default function AdminPage() {
+  const { authData } = useAuth();
+  const userName = authData?.fullName || "Admin";
+
   return (
-    <div>page</div>
-  )
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Welcome, {userName}</h1>
+    </div>
+  );
 }
-
-export default page

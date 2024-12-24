@@ -3,9 +3,14 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 // import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
-import { Upload, List, Edit, User, Bell } from 'lucide-react';
+import { Upload, List, Edit, User, Bell, Home } from 'lucide-react';
 
 const items = [
+  {
+    title: "Home",
+    url: "/dashboard",
+    icon: Home,
+  },
   {
     title: "Upload Scores",
     url: "/dashboard/upload-scores",

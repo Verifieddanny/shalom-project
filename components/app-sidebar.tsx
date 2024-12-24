@@ -37,9 +37,9 @@ export function AppSidebar({ items, user, role }: AppSidebarProps) {
   };
   return (
     <Sidebar variant="floating" collapsible="icon" >
-      <SidebarContent className="text-[#0099ff] ">
+      <SidebarContent className="text-[#010101] ">
         <SidebarGroup >
-          <SidebarGroupLabel className="font-bold text-[#72b4ee]">Shalom Project</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-bold text-[#0101019d]">Shalom Project</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
