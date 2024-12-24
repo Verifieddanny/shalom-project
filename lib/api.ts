@@ -118,7 +118,25 @@ export const generateToken = async (accessToken: string) => {
    
     return data.data; 
   };
-
+  export const getStudentTranscript = async (accessToken: string, session?: string, semester?: number) => {
+    const queryParams = new URLSearchParams();
+    if (session) queryParams.append("session", session);
+    if (semester) queryParams.append("semester", semester.toString());
+    const result = await fetch(`${BASE_URL}/student/transcript?${queryParams.toString()}`, {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + accessToken,
+      },
+    });
+  
+    if (!result.ok) {
+      const errorData = await result.json();
+      throw new Error(errorData.message || "Failed to retrieve student transcript");
+    }
+  
+    const data = await result.json();
+    return data.data;
+  };
   export const deleteCourseRegistration = async (id: string, accessToken: string) => {
     const result = await fetch(`${BASE_URL}/student/registration/${id}`, {
       method: "DELETE",
@@ -222,3 +240,36 @@ export const updateStudentScore = async (accessToken: string, scoreData: UpdateS
 
   return result.json();
 }
+
+
+export const getLecturers = async (accessToken: string) => {
+  const result = await fetch(`${BASE_URL}/admin/lecturers`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    }
+  });
+
+  if (!result.ok) {
+    const errorData = await result.json();
+    throw new Error(errorData.message || "Failed to retrieve lecturers");
+  }
+
+  return result.json();
+};
+
+export const getStudents = async (accessToken: string) => {
+  const result = await fetch(`${BASE_URL}/admin/students`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    }
+  });
+
+  if (!result.ok) {
+    const errorData = await result.json();
+    throw new Error(errorData.message || "Failed to retrieve students");
+  }
+
+  return result.json();
+};
