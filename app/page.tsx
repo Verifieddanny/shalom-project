@@ -1,9 +1,11 @@
 // import Image from "next/image";
 import Link from "next/link";
+import RegisterServiceWorker from "./RegisterserviceWorker";
 
 export default function Home() {
   return (
     <main className=" w-full h-screen flex-col flex justify-center items-center">
+      <RegisterServiceWorker />
       <h1 className="text-center font-bold mb-40 text-[#010101] text-8xl">Shalom Project</h1>
 
       <div className="w-full flex justify-center items-center gap-x-8">
