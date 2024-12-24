@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { getStudentTranscript } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import jsPDF from 'jspdf';
-import autoTable, { UserOptions } from 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 import Loader from '@/components/dashboard-loader';
 
 interface Course {
