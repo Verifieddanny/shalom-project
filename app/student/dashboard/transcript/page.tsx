@@ -76,7 +76,6 @@ const Transcript: React.FC = () => {
       setPermission(result);
 
       if (result === 'granted') {
-        console.log('Notification permission granted!');
         return true;
       } else if (result === 'denied') {
         console.log('Notification permission denied.');
@@ -101,22 +100,19 @@ const Transcript: React.FC = () => {
             userVisibleOnly: true,
             applicationServerKey: APPLICATION_SERVER_KEY,
           });
-          console.log('Push Subscription: ', subscription);
 
           if (authData?.accessToken) {
-            const response = await fetch(`${BASE_URL}/api/student/save-subscription`, {
+            const response = await fetch(`${BASE_URL}/student/save-subscription`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + authData.accessToken,
               },
-              body: JSON.stringify({ subscription }),
+              body: JSON.stringify({ userId: authData.id, subscription }),
             });
 
-            if (response.ok) {
-              console.log('Subscription saved successfully');
-            } else {
-              console.error('Failed to save subscription on the server');
+            if (!response.ok) {
+              throw new Error('Failed to save subscription');
             }
           }
         } catch (error) {
