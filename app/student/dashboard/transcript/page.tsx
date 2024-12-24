@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { getStudentTranscript } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import autoTable, { UserOptions } from 'jspdf-autotable';
 import Loader from '@/components/dashboard-loader';
 
 interface Course {
@@ -21,6 +21,12 @@ interface TranscriptData {
   session: string;
   totalCreditEarned: number;
   totalCreditUnit: number;
+}
+
+interface jsPDFWithPlugin extends jsPDF {
+  lastAutoTable: {
+    finalY: number;
+  };
 }
 
 const APPLICATION_SERVER_KEY: string = process.env.NEXT_PUBLIC_APPLICATION_SERVER_KEY || "";
@@ -123,14 +129,15 @@ const Transcript: React.FC = () => {
   }
 
   const handleDownload = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF() as jsPDFWithPlugin;
     doc.setFontSize(22);
     doc.setFont('helvetica', 'bold');
     doc.text('Shalom Project', doc.internal.pageSize.getWidth() / 2, 16, { align: 'center' });
-    
+
     doc.setFontSize(16);
     doc.setFont('helvetica', 'normal');
     doc.text('Student Transcript', doc.internal.pageSize.getWidth() / 2, 24, { align: 'center' });
+
     if (transcript) {
       autoTable(doc, {
         head: [['Course Code', 'Unit', 'Grade', 'Score']],
@@ -142,9 +149,10 @@ const Transcript: React.FC = () => {
         ]),
         startY: 30,
       });
-      doc.text(`GPA: ${transcript.gpa}`, 14, (doc as any).lastAutoTable.finalY + 10);
-      doc.text(`Total Credit Earned: ${transcript.totalCreditEarned}`, 14, (doc as any).lastAutoTable.finalY + 20);
-      doc.text(`Total Credit Unit: ${transcript.totalCreditUnit}`, 14, (doc as any).lastAutoTable.finalY + 30);
+      const finalY = doc.lastAutoTable.finalY;
+      doc.text(`GPA: ${transcript.gpa}`, 14, finalY + 10);
+      doc.text(`Total Credit Earned: ${transcript.totalCreditEarned}`, 14, finalY + 20);
+      doc.text(`Total Credit Unit: ${transcript.totalCreditUnit}`, 14, finalY + 30);
       doc.save('transcript.pdf');
     }
   };
