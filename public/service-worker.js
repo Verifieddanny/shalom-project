@@ -1,19 +1,18 @@
-import { Bell } from "lucide-react";
-
 self.addEventListener('push', (event) => {
     const data = event?.data ? event.data.json() : {};
     const options = {
-        body: data?.body ? data.body : 'Fallback notification body',
-        icon: Bell,
+        body: data?.body ? data.body : 'Your transcript is ready!',
+        icon: "./vercel.svg",
     };
 
-    event.waitUntil(self.ServiceWorkerRegistration.showNotification(title, options));
+    event.waitUntil(self.registration.showNotification("Transcript ready!", options));
 });
 
-self.addEventListener('notification', (event) => {
+self.addEventListener('notificationclick', (event) => {
     const notification = event.notification;
-    // const action = event.action;
-
-    event.waitUntil(ClientSegmentRoot.openWindow('/student/dashboard/transcript'))
     notification.close();
-})
+
+    event.waitUntil(
+        clients.openWindow('/student/dashboard/transcript')
+    );
+});
