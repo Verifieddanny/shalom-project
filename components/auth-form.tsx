@@ -18,6 +18,7 @@ const AuthForm = ({role, type}: AuthFormProps) => {
         fullName: "",
         email: "",
         password: "",
+        confirmPassword: "",
         registrationNumber: "",
     });
     const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +29,10 @@ const AuthForm = ({role, type}: AuthFormProps) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (type === "register" && formData.password !== formData.confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
         setIsLoading(true);
         try {
             const payload = role === "student" ? {registrationNumber: formData.registrationNumber, password: formData.password} : {email: formData.email, password: formData.password};
@@ -92,6 +97,14 @@ const AuthForm = ({role, type}: AuthFormProps) => {
               type="password"
               name="password"
               placeholder="Password"
+              onChange={handleChange}
+              className="border rounded w-full p-2"
+              required
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
               onChange={handleChange}
               className="border rounded w-full p-2"
               required
