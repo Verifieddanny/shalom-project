@@ -4,6 +4,8 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { Home, Book, BarChart, Bell, FileText } from "lucide-react";
 import { MenuItem } from "@/components/app-sidebar";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const items: MenuItem[] = [
   {
@@ -44,8 +46,15 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const { authData } = useAuth();
+  const router = useRouter();
   const userName = authData?.fullName || "User";
   const role = authData?.role || "";
+
+  useEffect(() => {
+    if (!authData?.accessToken) {
+      router.push('/');
+    }
+  }, [authData, router]);
 
   return (
     <div className="flex w-full h-full min-h-screen">
