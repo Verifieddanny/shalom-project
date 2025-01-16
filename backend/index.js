@@ -334,8 +334,6 @@ agenda.define("check transcript state", async (job) => {
       student: user._id,
     });
     registrations.forEach(async (registration) => {
-      console.log(registration.is_transcript_ready, registration.is_transcript_seen, user.email);
-      await sendNotification("Transcript Ready", `Transcript for ${user.fullName} (${registration.session}/semester ${registration.semester}) is ready!`, user.phoneNumber, user.email);
       if (
         registration.is_transcript_ready &&
         !registration.is_transcript_seen
@@ -389,7 +387,7 @@ agenda.define("check transcript state", async (job) => {
 (async function () {
   await agenda.start();
 
-  await agenda.every("five minutes", "check transcript state");
+  await agenda.every("one day", "check transcript state");
 })();
 
 mongoose

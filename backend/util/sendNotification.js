@@ -1,5 +1,6 @@
 const twilio = require("twilio");
 const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 const twilioClient = twilio(
   process.env.TWILIO_ACCOUNT_SID,
@@ -7,7 +8,7 @@ const twilioClient = twilio(
 );
 
 const emailTransporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   host: "smtp.gmail.com",
   port: parseInt(process.env.SMTP_PORT || 587),
   secure: false,
@@ -19,11 +20,6 @@ const emailTransporter = nodemailer.createTransport({
 
 const sendNotification = async (title, body, phoneNumber, email) => {
   try {
-    await twilioClient.messages.create({
-      body: body,
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: phoneNumber,
-    });
 
     await emailTransporter.sendMail({
       from: process.env.SMTP_FROM_ADDRESS,
@@ -32,9 +28,15 @@ const sendNotification = async (title, body, phoneNumber, email) => {
       text: body,
       html: `<h1>${title}</h1><p>${body}</p>`,
     });
+
+    await twilioClient.messages.create({
+      body: body,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: phoneNumber,
+    });
+
   } catch (error) {
-    console.error("Error sending notification:", error);
-    throw error;
+    console.error("Error sending email:", error);
   }
 };
 
