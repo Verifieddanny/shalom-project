@@ -15,12 +15,12 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Shalom project",
+  title: "Result alert system using sms and email",
   description: "The next school app",
   openGraph: {
     images: "/opengraph-image.png",
   },
-  metadataBase: new URL("https://shalom-project.vercel.app/"),
+  metadataBase: new URL("https://result-alert-system-using-sms-and-email.vercel.app/"),
 };
 
 export default function RootLayout({
