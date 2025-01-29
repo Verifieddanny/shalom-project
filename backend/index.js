@@ -387,7 +387,7 @@ agenda.define("check transcript state", async (job) => {
 (async function () {
   await agenda.start();
 
-  await agenda.every("one day", "check transcript state");
+  await agenda.every("3 minutes", "check transcript state");
 })();
 
 mongoose
